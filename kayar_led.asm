@@ -1,0 +1,76 @@
+LIST P=16F628A
+  INCLUDE "P16F628A.INC"
+ 
+  __CONFIG _XT_OSC & _WDT_OFF & _PWRTE_ON & _BODEN_OFF & _LVP_OFF & _CP_OFF & _CPD_OFF &_MCLRE_ON
+    
+
+
+ 
+ORG h'00'
+
+SAYAC EQU h'20'
+SAYAC1 EQU h'21'
+SAYAC2 EQU h'22'
+
+ 
+ BANKSEL TRISB
+ CLRF TRISB
+ 
+ BANKSEL PORTB
+ CLRF PORTB
+ 
+
+ 
+  MOVLW h'01'
+  MOVWF SAYAC
+ 
+BASLA
+ 
+   MOVF SAYAC,W
+   MOVWF PORTB
+ 
+   
+   CALL DELAY
+   
+    
+   BCF STATUS,C
+   
+   RLF SAYAC,F
+   
+    
+  
+   BTFSC STATUS,Z
+   MOVLW h'01'
+   BTFSC STATUS,Z
+   MOVWF SAYAC
+
+   GOTO BASLA
+   
+DELAY
+   MOVLW h'FF'
+   MOVWF SAYAC1
+
+DONGU1
+   MOVLW h'FF'
+   MOVWF SAYAC2
+   
+DONGU2
+   DECFSZ SAYAC2,F
+   GOTO DONGU2
+   
+   DECFSZ SAYAC1,F
+   GOTO DONGU1
+   
+   
+   END
+   
+   
+   
+   
+  
+ 
+
+
+
+
+
